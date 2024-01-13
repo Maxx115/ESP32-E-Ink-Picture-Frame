@@ -1,5 +1,6 @@
 /* --------------- INCLUDE SECTION ---------------- */
 #include "self_arduino.hpp"
+#include "say_hello.hpp"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -38,6 +39,6 @@ void loopTask(void *pvParameters)
     for(;;) 
     {
       vTaskDelay(1000);
-      Serial.println("Hello World!");
+      sayHello();
     }
 }
