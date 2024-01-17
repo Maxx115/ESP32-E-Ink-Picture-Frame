@@ -1,10 +1,12 @@
 /* --------------- INCLUDE SECTION ---------------- */
 #include "self_arduino.hpp"
 #include "say_hello.hpp"
+#include "wifi_init.hpp"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_task_wdt.h"
+#include <SPIFFS.h>
 
 /* ---------------- DEFINES / CONSTANTS ---------------- */
 
@@ -36,9 +38,13 @@ extern "C" void app_main()
 /* ---------------- RTOS TASK SECTION ---------------- */
 void loopTask(void *pvParameters)
 {
+    if (!SPIFFS.begin(true)) {
+    Serial.println("Failed to mount file systen");
+    return;
+    }
+    WiFiInit();
     for(;;) 
     {
-      vTaskDelay(1000);
-      sayHello();
+      vTaskDelay(5000);
     }
 }
