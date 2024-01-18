@@ -1,0 +1,10 @@
+This is a notepad for the SDCard Requirements.
+
+1 Terminology
+
+
+2 Scope
+
+
+3 Interfaces
+

@@ -1,0 +1,35 @@
+This is a notepad for the WiFi Requirements.
+
+1 Terminology
+
+REQ 1.1
+The term WiFi shall be used according to the IEEE 802.11 Specifications.
+
+REQ 1.2
+The program code related to the functionality of WiFi usage shall be grouped up in a Module. The term term WiFi-Module shall be used in further reference to this part of the program.
+
+2 Scope
+
+REQ 2.1
+The WiFi-Module shall enable the connection to one access point with no other connection.
+
+REQ 2.2
+The WiFi-Module shall enable a mode in which it acts as an access point with no other connection.
+
+REQ 2.3
+The WiFi-Module shall be used in a local area network with trusted network participants.
+
+3 Interfaces
+
+REQ 3.1
+The WiFi-Module shall provide an interface that does not require input; outputs a list of access points in the area with their corresponding SSID and signal strength.
+A limit to the amount access point in the list and a cutoff signal strength shall be implemented for tge output.
+
+REQ 3.2
+The WiFi-Module shall provide an interface that takes as inputs ssid, password, hostname to connect to the corresponding access point; outputs the resulting connection status (connected or not connected).
+The hostname will identify the connected device on the local area network.
+
+REQ 3.3
+The WiFi-Module shall provude an interface that takes as input a ip-address and outputs the returned body of the http get request performed on the ip-adress.
+Additionally a optional input for the get request shall be implemented to specify the http get request.
+
