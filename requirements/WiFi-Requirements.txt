@@ -30,4 +30,7 @@ The WiFi-Module shall provide an interface that takes as inputs ssid, password, 
 The hostname will identify the connected device on the local area network.
 
 REQ 3.3
+The Wifi-Module shall provude an interface that takes as input a ip-address and outputs the returned body of the http get request performed on the ip-adress.
+
+
 
