@@ -15,12 +15,9 @@ jobs:
             DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-            args: '@here | The project *{{ EVENT_PAYLOAD.repository.full_name }}* has been updated in main. User: *{{ EVENT_PAYLOAD.head_commit.author.name }}* Commit Message: *{{ EVENT_PAYLOAD.head_commit.message }}*'
+            args: '@here'
       
       - name: Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
-        with:
-          args: '@here | The project *{{ EVENT_PAYLOAD.repository.full_name }}* has been updated in main. User: *{{ EVENT_PAYLOAD.head_commit.author.name }}* Commit Message: *{{ EVENT_PAYLOAD.head_commit.message }}*'
-    
