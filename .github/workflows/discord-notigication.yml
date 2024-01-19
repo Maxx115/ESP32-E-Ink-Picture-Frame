@@ -13,6 +13,21 @@ jobs:
       - name: Discord notification
         env:
             DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+            DISCORD_EMBED: '{
+              "embeds": [{
+                  "type": "rich",
+                  "title": "{{ EVENT_PAYLOAD.repository.full_name }}",
+                  "description": "{{ EVENT_PAYLOAD.head_commit.message }}",
+                  "color": "0x00FFFF",
+                  "thumbnail": 
+                    {
+                      "url": "https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg",
+                      "height": 0,
+                      "width": 0
+                    },
+                  "url": "https://github.com/Maxx115/ESP32-E-Ink-Picture-Frame"
+                }]
+              }'
         uses: Ilshidur/action-discord@master
         with:
             args: 
