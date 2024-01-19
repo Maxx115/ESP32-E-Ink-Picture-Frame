@@ -22,14 +22,30 @@ The WiFi-Module shall be used in a local area network with trusted network parti
 3 Interfaces
 
 REQ 3.1
-The WiFi-Module shall provide an interface that does not require input; outputs a list of access points in the area with their corresponding SSID and signal strength.
-A limit to the amount access point in the list and a cutoff signal strength shall be implemented for tge output.
+The WiFi-Module shall provide an interface that does not require input/parameters; outputs/returns a list of access points in the area with their corresponding SSID and signal strength.
+A limit to the amount access point in the list and a cutoff signal strength shall be implemented for the output.
 
 REQ 3.2
-The WiFi-Module shall provide an interface that takes as inputs ssid, password, hostname to connect to the corresponding access point; outputs the resulting connection status (connected or not connected).
+The WiFi-Module shall provide an interface that takes as inputs/parameters ssid, password, hostname in order to attempt a connection to the corresponding access point; outputs/returns the resulting connection status (e.g. connected, disconnected) and for a successfull connection the assigned ip Adress.
 The hostname will identify the connected device on the local area network.
+Additionally a optional input/parameter shall be implemented that takes a ip-adress that will be requested from the access point for the device on the network.
+If the connection attempts are not successfull within a certain time frame or amount of tries the interface shall stop trying to establish a connection.
 
 REQ 3.3
-The WiFi-Module shall provude an interface that takes as input a ip-address and outputs the returned body of the http get request performed on the ip-adress.
-Additionally a optional input for the get request shall be implemented to specify the http get request.
+The WiFi-Module shall provide an interface that takes as input/parameter a ip-address; outputs/return the body of the http get request performed on the ip-adress.
+Additionally a optional input/parameter for input to the get request shall be implemented to specify the http get request.
+
+REQ 3.4
+The WiFi-Module shall provide an interface that does not require inputs/parameters; outputs/returns the current connection status.
+
+REQ 3.5
+The WiFi-Module shall provide an interface that takes no inputs/parameters; outputs/returns the current connection status after disconnecting from any connected access point or any other device connected to the device when acting as an access point.
+
+REQ 3.6
+The WiFi-Module shall provide an interface that takes no inputs/parameters; outputs/returns the current connection status after disabling the WiFi hardware.
+
+4 Edge Case Results
+
+REQ 4.1
+The WiFi-Module shall be able to handle an interface call with no prior Initialization.
 
