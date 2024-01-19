@@ -13,7 +13,6 @@ jobs:
       - name: Notify Discord
         uses: Ilshidur/action-discord@v2
         with:
-          args: |
-            { "content": "New commit pushed to main branch!" }
-          env:
-            DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          args: '{"content": "New commit pushed to main branch!"}'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
