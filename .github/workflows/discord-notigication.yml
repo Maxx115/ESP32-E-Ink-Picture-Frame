@@ -15,7 +15,7 @@ jobs:
             DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-            args: '@here'
+            args: '@here **NEW PUSH**'
       
       - name: Discord notification
         env:
