@@ -2,6 +2,11 @@ This is a notepad for the SPI Requirements.
 
 0 Overview
 
+The SPI (Serial Peripheral Interface) is a bus network that connects one master device to one or more slave devices.
+It is considered a synchronous, full duplex, serial bus.
+A master device selects one slave via a CS (Chip Select, usually active low) signal to communicate with.
+The MOSI (Master Out Slave In) signal is used to send data to the selected slave.
+The MISO (Master In Slave Out) signal is used to send data from the selected slave to the master.
 
 1 Terminology
 
@@ -16,6 +21,6 @@ The SPI-Module shall only cover the initialization of a SPI communication.
 3 Interfaces
 
 REQ 3.1
-The SPI-Module shall implement a interface that take as inputs/parameters the pins used for SPI, the frequency of the SPI, the endianess of the SPI, the mode of the SPI; outputs/returns the indication of successfull initialization of the SPI.
+The SPI-Module shall implement a interface that take as optional inputs/parameters the pins used for SPI, the frequency of the SPI, the endianess of the SPI, the mode of the SPI; outputs/returns the indication of successfull initialization of the SPI.
 The inputs/parameters shall be used to initialize the SPI according to their values. If a input/parameter would result in a faulty behaviour the initialization shall be aborted.
-
+If SPI is already initialized the current SPI shall be closed and the SPI shall be reinitialized with current inputs/parameters.
