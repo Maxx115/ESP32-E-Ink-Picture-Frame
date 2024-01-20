@@ -2,6 +2,7 @@
 #include "self_arduino.hpp"
 #include "say_hello.hpp"
 #include "wifi_init.hpp"
+#include "SPI_Moduel.hpp"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -38,6 +39,17 @@ extern "C" void app_main()
 /* ---------------- RTOS TASK SECTION ---------------- */
 void loopTask(void *pvParameters)
 {
+  unsigned char data = '9';
+  SPI_Init();
+  digitalWrite(SPI.pinSS(), LOW);
+  SPI.transfer(data);
+  digitalWrite(SPI.pinSS(), HIGH);
+  for(;;)
+  {
+    vTaskDelay(5000);
+  }
+
+  /*
     if (!SPIFFS.begin(true)) {
     Serial.println("Failed to mount file systen");
     return;
@@ -47,4 +59,5 @@ void loopTask(void *pvParameters)
     {
       vTaskDelay(5000);
     }
+  */
 }
