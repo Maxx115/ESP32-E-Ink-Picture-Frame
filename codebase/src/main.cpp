@@ -2,7 +2,7 @@
 #include "self_arduino.hpp"
 #include "say_hello.hpp"
 #include "wifi_init.hpp"
-#include "SPI_Moduel.hpp"
+#include "SPI_Module.hpp"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
