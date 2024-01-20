@@ -14,6 +14,6 @@
 
 /* REQ 3.1 */
 // parameters: pins for SPI COM, fCLK, endieness, mode
-void SPI_Init(int mosi = MOSI_DEFAULT, int miso = MISO_DEFAULT, int cs = CS_DEFAULT, int sck = SCK_DEFAULT, int fclk = FCLK_DEFAULT, int endieness = ENDIANESS_DEFAULT, int mode = MODE_DEFAULT);
+spi_t * SPI_Init(int mosi = MOSI_DEFAULT, int miso = MISO_DEFAULT, int cs = CS_DEFAULT, int sck = SCK_DEFAULT, int fclk = FCLK_DEFAULT, int endieness = ENDIANESS_DEFAULT, int mode = MODE_DEFAULT);
 
 #endif //SPIINIT

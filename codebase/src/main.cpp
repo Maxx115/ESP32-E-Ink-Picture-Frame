@@ -44,6 +44,10 @@ void loopTask(void *pvParameters)
   digitalWrite(SPI.pinSS(), LOW);
   SPI.transfer(data);
   digitalWrite(SPI.pinSS(), HIGH);
+  SPI_Init();
+  digitalWrite(SPI.pinSS(), LOW);
+  SPI.transfer(data);
+  digitalWrite(SPI.pinSS(), HIGH);
   for(;;)
   {
     vTaskDelay(5000);
