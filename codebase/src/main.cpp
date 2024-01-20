@@ -1,7 +1,7 @@
 /* --------------- INCLUDE SECTION ---------------- */
 #include "self_arduino.hpp"
 #include "say_hello.hpp"
-#include "wifi_init.hpp"
+#include "wifi_module.hpp"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -42,7 +42,7 @@ void loopTask(void *pvParameters)
     Serial.println("Failed to mount file systen");
     return;
     }
-    WiFiInit();
+    WiFiMain();
     for(;;) 
     {
       vTaskDelay(5000);
