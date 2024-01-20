@@ -1,5 +1,7 @@
 This is a notepad for the WiFi Requirements.
 
+0 Overview
+
 1 Terminology
 
 REQ 1.1
@@ -30,6 +32,7 @@ The WiFi-Module shall provide an interface that takes as inputs/parameters ssid,
 The hostname will identify the connected device on the local area network.
 Additionally a optional input/parameter shall be implemented that takes a ip-adress that will be requested from the access point for the device on the network.
 If the connection attempts are not successfull within a certain time frame or amount of tries the interface shall stop trying to establish a connection.
+If a there is already a established connection the WiFi-Module shall disconnect from the current access point and try to connect to the access point identified by the current inputs/parameters.
 
 REQ 3.3
 The WiFi-Module shall provide an interface that takes as input/parameter a ip-address; outputs/return the body of the http get request performed on the ip-adress.
