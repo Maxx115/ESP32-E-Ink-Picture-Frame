@@ -1,10 +1,12 @@
 This is a notepad for the EPD_7IN3F Requirements.
 
 1 Terminology
-
+The program code related to the functionality of the EPD (shorthand for E Paper Display) shall be grouped up in a Module. The term term EPD-Module shall be used in further reference to this part of the program.
 
 2 Scope
-
+The EPD-Module shall be able to safely communicate with the EDP 7IN3F (7.3 inches version f).
 
 3 Interfaces
 
+REQ 3.1
+The

@@ -1,10 +1,21 @@
 This is a notepad for the SPI Requirements.
 
+0 Overview
+
+
 1 Terminology
 
+REQ 1.1
+The program code related to the functionality of SPI (Serial Peripheral Interface) usage shall be grouped up in a Module. The term term SPI-Module shall be used in further reference to this part of the program.
 
 2 Scope
 
+REQ 2.1
+The SPI-Module shall only cover the initialization of a SPI communication.
 
 3 Interfaces
+
+REQ 3.1
+The SPI-Module shall implement a interface that take as inputs/parameters the pins used for SPI, the frequency of the SPI, the endianess of the SPI, the mode of the SPI; outputs/returns the indication of successfull initialization of the SPI.
+The inputs/parameters shall be used to initialize the SPI according to their values. If a input/parameter would result in a faulty behaviour the initialization shall be aborted.
 

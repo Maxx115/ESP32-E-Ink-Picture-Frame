@@ -6,7 +6,7 @@ REQ 1.1
 The term WiFi shall be used according to the IEEE 802.11 Specifications.
 
 REQ 1.2
-The program code related to the functionality of WiFi usage shall be grouped up in a Module. The term term WiFi-Module shall be used in further reference to this part of the program.
+The program code related to the functionality of WiFi (Wireless Fidelity) usage shall be grouped up in a Module. The term term WiFi-Module shall be used in further reference to this part of the program.
 
 2 Scope
 
