@@ -1,4 +1,5 @@
 #include <WiFi.h> // Load WiFi library
+#include "wifi_module.hpp"
 
 
 const String ssid = "";
@@ -7,18 +8,6 @@ const String password = "";
 
 // Scan for local wifi networks - terminal prints out list ordered by signal strength
 #define MAX_NETWORKS 10
-
-// Structure to hold information about suitable Wi-Fi networks
-struct WiFiNetwork {
-  String SSID;
-  int RSSI;
-};
-
-// Structure to hold the result of a Wi-Fi scan
-struct WiFiScanResult {
-  WiFiNetwork* networks;  // Array of suitable Wi-Fi networks
-  int numNetworks;        // Number of entries in the array networks
-};
 
 WiFiScanResult WiFiScan(void) {
   static WiFiNetwork topNetworks[MAX_NETWORKS];
