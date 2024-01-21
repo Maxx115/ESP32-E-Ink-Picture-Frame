@@ -7,36 +7,61 @@ const String password = "";
 
 // Scan for local wifi networks - terminal prints out list ordered by signal strength
 #define MAX_NETWORKS 10
-String* WiFiScan(void) {
-  static String topSSIDs[MAX_NETWORKS];
+
+// Structure to hold information about suitable Wi-Fi networks
+struct WiFiNetwork {
+  String SSID;
+  int RSSI;
+};
+
+// Structure to hold the result of a Wi-Fi scan
+struct WiFiScanResult {
+  WiFiNetwork* networks;  // Array of suitable Wi-Fi networks
+  int numNetworks;        // Number of entries in the array networks
+};
+
+WiFiScanResult WiFiScan(void) {
+  static WiFiNetwork topNetworks[MAX_NETWORKS];
   int suitableNetworks = 0;
+
+  // Clear the array before each scan
+  memset(topNetworks, 0, sizeof(topNetworks));
+
   // Remember total number of found networks, regardless of suitability
-  int numNetworks = WiFi.scanNetworks();
-  // Handle an unexpected negative number of networks returned
-  if (numNetworks < 0) {
-    Serial.println("Error scanning networks");
+  int totalNetworks = WiFi.scanNetworks();
+
+  // Handle the event of negative or 0 networks being detected
+  if (totalNetworks <= 0) {
+    if (totalNetworks < 0) {
+      Serial.println("Error scanning networks");
+    }
+    else {
+      Serial.println("No networks found");
+    }
+    WiFiScanResult errorResult;
+    errorResult.networks = nullptr;
+    errorResult.numNetworks = 0;
+    return errorResult;
   }
-  // Handle the event of 0 networks being detected
-  else if (numNetworks == 0) {
-    Serial.println("No networks found");
-  }
+
   // Handle any real number of networks being detected
   else {
     Serial.print("Networks found: ");
-    Serial.println(numNetworks);
+    Serial.println(totalNetworks);
 
     // Sort networks by signal strength (RSSI)
-    for (int i = 0; i < min(MAX_NETWORKS, numNetworks); i++) {
+    for (int i = 0; i < min(MAX_NETWORKS, totalNetworks); i++) {
       String SSID = WiFi.SSID(i);
       int RSSI = WiFi.RSSI(i);
       
       // Ignore networks with poor signal strength (RSSI) + print how many networks were ignored
       if (RSSI < -80) {
         Serial.print("+");
-        Serial.print(String(numNetworks - i));
-        Serial.println(" other networks ignored due to poor signal strenth");
+        Serial.print(String(totalNetworks - i));
+        Serial.println(" networks ignored due to poor signal strength");
         break;
       }
+
       // Print each suitable networks SSID along with RSSI + write the SSID to the corresponding array index of topSSIDs
       else {
         Serial.print(i + 1);
@@ -45,17 +70,27 @@ String* WiFiScan(void) {
         Serial.print(" | Strength: ");
         Serial.println(RSSI);
 
-        topSSIDs[i] = SSID;
+        topNetworks[i].SSID = SSID;
+        topNetworks[i].RSSI = RSSI;
+
         suitableNetworks++;
       }
     }
   }
-  // Print contents of array topSSIDs for troubleshooting + return array topSSIDs
-  Serial.print("Returned SSIDs: ");
+
+  Serial.println("Top Networks:");
   for (int i = 0; i < suitableNetworks; i++) {
-    Serial.print(String(i) + "[" + topSSIDs[i] + "] ");
+    Serial.print("SSID: ");
+    Serial.print(topNetworks[i].SSID);
+    Serial.print(" | RSSI: ");
+    Serial.println(topNetworks[i].RSSI);
   }
-  return topSSIDs;
+
+  WiFiScanResult result;
+  result.networks = topNetworks;
+  result.numNetworks = suitableNetworks;
+  // Print contents of array topSSIDs for troubleshooting + return array topSSIDs
+  return result;
 }
 
 
