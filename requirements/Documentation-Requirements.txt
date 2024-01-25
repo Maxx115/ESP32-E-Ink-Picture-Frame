@@ -6,7 +6,8 @@ The source code (that are all *.c and *.h files) shall contain the license text 
 REQ 1.2
 The source code (that are all *.c and *.h files) shall contain a information text right after the license text but before any other text or code.
 The information text shall be in the following format (replacing the part marked with angled brackets like "[" and "]" with the relevant information):
-/* ESP32-E-Ink-Picture-frame
+/* 
+ * ESP32-E-Ink-Picture-frame
  * Project Owners:
  * Maxx115 (https://github.com/Maxx115)
  * madman1397 (https://github.com/madman1397)
@@ -14,10 +15,11 @@ The information text shall be in the following format (replacing the part marked
  * Main person in charge for this module: [Username] (https://github.com/[Username])
  * Creation date: [YYYY-MM-DD]
  * Requirements document: [Module-Name]-Requirements.txt
+*/
 
 REQ 1.3
-If the source code (that are all *.c and *.h files) implements a specific requirement it shall be documented in a comment above the section of source code like this:
-/* [Module-Name]-Requriements.txt: [implemented requirements of the following section of source code like "REQ 1.1, REQ 1.2, ..."]
+If the source code (that are all *.c and *.h files) implements a specific interface requirement it shall be documented in a comment above the section of source code like this:
+/* [Module-Name]-Requriements.txt: [implemented requirements of the following section of source code like "REQ 1.1, REQ 1.2, ..."] */
 
 REQ 1.4
 Every function in the source code (that are all *.c and *.h files) shall have a comment right above the function that describes the inputs/parameters and the outputs/returns.
