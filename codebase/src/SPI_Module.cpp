@@ -46,10 +46,17 @@ spi_t * SPI_Init(int mosi, int miso, int cs, int sck, int fclk, int endieness, i
         SPI.end();
     }
 
+
+
     digitalWrite(cs, HIGH);
+    digitalWrite(mosi, LOW);
+    digitalWrite(miso, LOW);
+    digitalWrite(sck, LOW);
+
     pinMode(cs, OUTPUT);
     pinMode(mosi, OUTPUT);
     pinMode(miso, OUTPUT);
+    
     SPI.begin(sck, miso, mosi, cs);
     SPI.beginTransaction(SPISettings(fclk, endieness, mode));
 
