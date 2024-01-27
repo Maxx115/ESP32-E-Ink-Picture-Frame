@@ -3,7 +3,8 @@
 #include "say_hello.hpp"
 #include "wifi_init.hpp"
 #include "SPI_Module.hpp"
-#include "EPD_7IN3D_Module.hpp"
+#include "EPD_7IN3F_Module.hpp"
+#include "imagedata.hpp"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -40,31 +41,27 @@ extern "C" void app_main()
 /* ---------------- RTOS TASK SECTION ---------------- */
 void loopTask(void *pvParameters)
 {
+  while(!Serial.available())
+  {
+    vTaskDelay(10);
+  }
+
   Serial.println("Starting init:...");
   epd_init();
-  Serial.println("Show color:...");
-  epd_showColor(EPD_7IN3F_WHITE);
-  //Serial.println("Display 7 colors:...");
-  //EPD_7IN3F_Show7Block();
-  //Serial.println("Going to sleep:...");
-  //vTaskDelay(10000);
 
+  //Serial.println("Show an image: TEST...");
+  //epd_showImage(gImage_7in3f, 1, 250, 150, 300, 180);
+  //vTaskDelay(2000);
+
+  Serial.println("Show an image: TEST...");
+  epd_showImage(gImage_test, 1);
+  vTaskDelay(2000);
+  
+  Serial.println("Going to sleep:...");
   epd_deepSleep();
 
   for(;;)
   {
     vTaskDelay(5000);
   }
-
-  /*
-    if (!SPIFFS.begin(true)) {
-    Serial.println("Failed to mount file systen");
-    return;
-    }
-    WiFiInit();
-    for(;;) 
-    {
-      vTaskDelay(5000);
-    }
-  */
 }
