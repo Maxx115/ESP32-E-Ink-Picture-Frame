@@ -33,7 +33,7 @@ std::vector<String> WiFiScan(void) {
 void WiFiConnect(void){
   Serial.println("WifiSetup starting...");
 
-  WiFi.begin(ssid, password);
+  //WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Attempting connection...");
