@@ -11,6 +11,10 @@
 #include "esp_task_wdt.h"
 #include <SPIFFS.h>
 
+#if UNIT_TEST==1
+#include "test/test_main.hpp"
+#endif /* UNIT_TEST */
+
 /* ---------------- DEFINES / CONSTANTS ---------------- */
 
 
@@ -33,9 +37,16 @@ extern "C" void app_main()
 {
   loopTaskWDTEnabled = false;
   initArduino();
+
+  #if UNIT_TEST==1
+  test_main();
+  #else
+  
   Serial.begin(9600);
 
   xTaskCreateUniversal(loopTask, "loopTask", CONFIG_ARDUINO_LOOP_STACK_SIZE, NULL, 1, &loopTaskHandle, CONFIG_ARDUINO_RUNNING_CORE);
+
+  #endif /* UNIT_TEST */
 }
 
 /* ---------------- RTOS TASK SECTION ---------------- */
@@ -53,9 +64,9 @@ void loopTask(void *pvParameters)
   //epd_showImage(gImage_7in3f, 1, 250, 150, 300, 180);
   //vTaskDelay(2000);
 
-  Serial.println("Show an image: TEST...");
-  epd_showImage(gImage_test, 1);
-  vTaskDelay(2000);
+  //Serial.println("Show an image: TEST...");
+  //epd_showImage(gImage_test, 1);
+  //vTaskDelay(2000);
   
   Serial.println("Going to sleep:...");
   epd_deepSleep();
