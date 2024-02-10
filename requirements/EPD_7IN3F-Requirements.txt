@@ -11,4 +11,18 @@ The EPD-Module shall be able to safely communicate with the EDP 7IN3F (7.3 inche
 3 Interfaces
 
 REQ 3.1
-The
+The EPD-Module shall provide an interface that takes as input/parameters a pointer to image data to display, a xstart and ystart determining the start of the image on the EPD, image_width and image_heigh to determine the size of the image to be displayed; outputs/returns a status of success of failed process of sending the data to the EPD.
+
+REQ 3.2
+The EPD-Module shall provide an interface that takes as input/parameters a color to be displayed on the display; outputs/returns a status of success of failed process of sending the data to the EPD.
+
+REQ 3.3
+The EPD-Module shall provide an interface that takes no input/parameter; outputs/returns a status of success of failed process of sending the data to the EPD.
+The data to be transfered to the EPD shall reset the EPD.
+
+REQ 3.4
+The EPD-Module shall provide an interface that takes no input/parameter; outputs/returns a status of success of failed process of sending the data to the EPD.
+The data transfered to the EPD shall put the EPD to deep sleep.
+
+REQ 3.5
+The EPD-Mopdule shall provide an interface that takes as inputs/parameters the RST_PIN (Reset), DC_PIN (Data / Command), BUSY_PIN; outputs/returns a status of success of failed process of sending the data to the EPD.
