@@ -1,11 +1,26 @@
 This is a notepad for the WDT Requirements.
 
 0 Overview
+A WDT (shorthand for watchdog timer) is used to make sure an embedded system does not get stuck in a infinite loop.
+Such an infinite loop is undesireable especially in embedded systems as those tend to not be easily resettable or it is often too late to reset them before the task they are supposed to perform has failed.
+As such a reset is often better than a system that hangs completely. In every Microcontroller are nowadays WDT implemented to perform the reset whenever the system has not during a specific time period.
+There are multiple ways a WDT may keep track of the system. The constraints that develop from these should be according to the required safety of the system.
 
 1 Terminology
-
+Resetting a WDT means to set the timer to a beforehand specified starting count. This is used so that the timer does not reach a end point that would trigger a reset.
 
 2 Scope
 
+REQ 2.1
+The WDT shall be initialized as early as possible inside the main.c file.
+
+REQ 2.2
+The WDT shall reset the system whenever its timeout condition has been met.
+
+REQ 2.3
+The WDT shall only be reset inside a single RTOS-Task which has the lowest priority of between all tasks.
+This ensures that no other task can consume too much runtime.
+The singular Task shall always have the lowest priority which has to be checked.
+To implement this a task specificly for the WDT is permitted.
 
 3 Interfaces
