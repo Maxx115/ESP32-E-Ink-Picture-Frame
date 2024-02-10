@@ -60,7 +60,7 @@ class Tester
         test_status = ENDED;
     }
 
-    String retMessage(String statement_1, String statement_2, bool statement_result)
+    String retMessage(String statement_1 = "statement_1", String statement_2 = "statement_2", bool statement_result = false)
     {
         String result = "";
 
@@ -86,7 +86,12 @@ class Tester
         assert_calls += 1;
         bool ret = compare(statement_1 ,statement_2);
 
+        #ifdef VERBOSE_STATEMENTS
         retMessage(String(statement_1), String(statement_2), ret);
+        #else
+        retMessage("statement_1", "statement_2", ret);
+        #endif /* VERBOSE_STATEMENTS */
+
 
         return ret;
     }

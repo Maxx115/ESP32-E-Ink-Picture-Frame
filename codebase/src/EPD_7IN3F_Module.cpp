@@ -137,7 +137,11 @@ bool epd_init(int rst_pin_param, int dc_pin_param, int busy_pin_param)
 
         pinMode(rst_pin, OUTPUT);
         pinMode(dc_pin, OUTPUT);
-        pinMode(busy_pin, INPUT); 
+        #if UNIT_TEST==1
+        pinMode(busy_pin, INPUT_PULLUP); 
+        #else
+        pinMode(busy_pin, INPUT_PULLDOWN);
+        #endif
 
         epd_reset();
         edp_BusyHigh();
@@ -270,6 +274,11 @@ bool epd_showImage(const ubyte_t *image_data, int refresh_cnt , uword_t xstart, 
 
     Serial.println("<Sending image data to EDP>");
 
+    if(initialized != true)
+    {
+        retValue = epd_init();
+    }
+
     if(initialized == true)
     {
         unsigned long x,y;
@@ -291,6 +300,8 @@ bool epd_showImage(const ubyte_t *image_data, int refresh_cnt , uword_t xstart, 
             }
         }
         epd_OnRefreshOff(refresh_cnt);
+
+        retValue = true;
     }
 
     return retValue;
@@ -303,7 +314,14 @@ bool epd_showColor(ubyte_t color, int refresh_cnt, uword_t xstart, uword_t ystar
 {
     bool retValue;
 
-    retValue = epd_showImage(&color, refresh_cnt, xstart, ystart, image_width, image_height, true);
+    if((color > 0x7))
+    {
+        retValue = false;
+    }
+    else
+    {
+        retValue = epd_showImage(&color, refresh_cnt, xstart, ystart, image_width, image_height, true);
+    }
 
     return retValue;
 }
