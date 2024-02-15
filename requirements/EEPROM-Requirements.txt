@@ -1,37 +1,25 @@
-This is a notepad for the EEPROM Requirements.
+Notepad: EEPROM Requirements
+0. Overview
+An EEPROM (Electrically Erasable Programmable Read-Only Memory) is a non-volatile storage medium commonly used in embedded systems. Unlike traditional ROM (Read-Only Memory), which is permanently programmed during manufacturing, EEPROM allows for multiple write and erase cycles. This capability makes it ideal for storing configuration settings and small amounts of data that need to be retained even when power is removed. EEPROMs have evolved over time, with advancements in technology leading to improved usability and efficiency. They are widely used in microcontrollers and other embedded devices to store critical system information reliably
 
-0 Overview
-An EEPROM (shorthand for Electically Erasable Programmable Read Only Memory) is a storage medium commonly used in embedded systems to store non volatile information.
-A big part of EEPROMs is the historic aspect. The development of non volatile memory using transister logic was a very important part of computer advancements. The termonology weng from ROM->PROM->EPROM->EEPROM each advancing in its usability and technology used.
-A big difference to the flash-memory is the minimal access size. For flash it is often a large bank of memory in a flash. Contrary to this the EEPROM enables a access of individual bits.
-Nowadays EEPROMs are common for microcontrollers. However a EEPROM can also be implemented using different technology. This does increase the access latency too though as the EEPROMs properties have to be emulated.
+1. Terminology
 
-1 Terminology
-
-2 Scope
-The EEPROM-Module shall ensure storage space is managed properly.
-This includes multiple accesses by different other modules of the system.
-There shall be a way to define memory areas with a specified size. An owner will be a module using that memory area.
-Access to data area shall be locked to the owner of the data area.
+2. Scope
+The EEPROM module must ensure that storage space is managed properly, including multiple accesses by different other modules of the system. It should provide a way to define memory areas with a specified size, with an owner being a module using that memory area. Access to the data area must be locked to the owner of the data area.
 
 REQ 2.1
-The EEPROM-Module shall create a mapping of the EEPROM storage area to identify where they begin, end, how many write cycles they experienced and how they are identified.
-This mapping has to be stored at the beginning of the EEPROM storage area and read when initializing the EEPROM-Module.
-The mapping has to have its own entry in itself.
-The size of the mapping in the memory area shall not have enough space to accomedate enough memory space for all modules.
+The EEPROM module shall create a mapping of the EEPROM storage area to identify where they begin, end, how many write cycles they have experienced, and how they are identified. This mapping shall be stored at the beginning of the EEPROM storage area and read when initializing the EEPROM module. The mapping shall have its own entry in itself. The size of the mapping in the memory area shall not have enough space to accommodate enough memory space for all modules.
 
-3 Interfaces
+3. Interfaces
 
 REQ 3.1
-The EEPROM-Module shall provide a function that reserves memory space of a specified size.
+The EEPROM module shall provide a function that reserves memory space of a specified size.
 ---TBD---
 
 REQ 3.2
-The EEPROM-Module shall provide a function that stores a specified amount of data given to it into memory.
-It shall take as inputs/parameters a pointer to the start of a dataset and the amount of datasets to store into memory.
+The EEPROM module shall provide a function that stores a specified amount of data given to it into memory. It shall take as inputs/parameters a pointer to the start of a dataset and the number of datasets to store into memory.
 ---TBD---
 
 REQ 3.3
-The EEPROM-Module shall provide a function that retrieves a specified amount of data from memory.
-It shall take as inputs/parameters a pointer to store the retrieved data to and 
+The EEPROM module shall provide a function that retrieves a specified amount of data from memory. It shall take as inputs/parameters a pointer to store the retrieved data and
 --TBD--
