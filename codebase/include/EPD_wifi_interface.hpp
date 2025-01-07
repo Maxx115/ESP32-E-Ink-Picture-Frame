@@ -28,29 +28,40 @@ SOFTWARE.
  * madman1397 (https://github.com/madman1397)
  *
  * Main person in charge for this module: Maxx115 (https://github.com/Maxx115)
- * Creation date: [2024-01-20]
- * Requirements document: SPI-Requirements.txt
+ * Creation date: [2024-01-26]
+ * Requirements document: EPD_7IN3F-Requirements.txt
  */
 
-#ifndef SPIINIT
-#define SPIINIT
+#ifndef EPD_WIFI_INTERFACE
+#define EPD_WIFI_INTERFACE
 
-#include <SPI.h>
 #include "self_arduino.hpp"
+#include "WiFi.h"
 
-#define MOSI_DEFAULT 13
-#define MISO_DEFAULT 14
-#define CS_DEFAULT 26
-#define SCK_DEFAULT 27
-#define FCLK_DEFAULT 2000000
-#define ENDIANESS_DEFAULT MSBFIRST
-#define MODE_DEFAULT SPI_MODE0
+extern uint8_t EPD_IP_DEVICE[];
+extern String EPD_IP_DEVICE_STR;
+extern uint8_t EPD_IP_GATEWAY[];
+extern uint8_t EPD_IP_SUBNET[];
+extern uint8_t EPD_IP_DNS[];
+extern String HOSTNAME;
 
-/* REQ 3.1 */
-/* parameters: pins for SPI COM, fCLK, endieness, mode -> parameters for the SPI configuration
- * returns: spi_t SPI.bus() -> the SPI object created with the parameters */
-spi_t * SPI_Init(SPIClass &spi = SPI, int mosi = MOSI_DEFAULT, int miso = MISO_DEFAULT, int sck = SCK_DEFAULT, int fclk = FCLK_DEFAULT, int endieness = ENDIANESS_DEFAULT, int mode = MODE_DEFAULT, int cs = CS_DEFAULT);
-spi_t * SPI_Init_CS(SPIClass &spi, int cs);
+#define SETUP_AP_SSID "ESP_E-Ink_Picture_Frame"
+#define SETUP_AP_PASSWORD "123456789"
 
+struct ScanResult 
+{
+     int numNetworks;
+     String* ssids;
+     int* rssis;
+};
 
-#endif //SPIINIT
+extern ScanResult ssidResult;
+
+ScanResult scanSSID(void);
+void APstartupMode(void);
+
+wl_status_t wifiInit(uint8_t ip_device[] = EPD_IP_DEVICE, uint8_t ip_gateway[] = EPD_IP_GATEWAY, uint8_t ip_subnet[] = EPD_IP_SUBNET, uint8_t ip_dns[] = EPD_IP_DNS, String hostname = HOSTNAME, 
+                     String ssid = "", String password = "");
+wl_status_t wifiInit_default(void);
+
+#endif /* EPD_WIFI_INTERFACE */

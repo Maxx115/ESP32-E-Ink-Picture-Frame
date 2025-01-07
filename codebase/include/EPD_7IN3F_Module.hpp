@@ -57,6 +57,7 @@ typedef unsigned long udouble_t;
 #define RST_PIN_DEFAULT 33
 #define DC_PIN_DEFAULT 25
 #define BUSY_PIN_DEFAULT 32
+#define CS_DEFAULT 26
 
 #define CMDH_1 0xAA
 #define CMDH_2 0x01

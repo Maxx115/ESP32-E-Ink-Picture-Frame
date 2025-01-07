@@ -1,0 +1,263 @@
+html {
+    font-family: Arial;
+    color: #ffffff;
+    display: inline-block;
+    margin: 0px auto;
+    text-align: center;
+  }
+  h1{
+    color: #ffffff;
+    padding: 2vh;
+  }
+  p{
+    font-size: 1.5rem;
+  }
+  
+  input[type=text]{
+    color: #ffffff;
+    background-color: #000000;
+    width: 200px;
+    text-align: left;
+  }
+  .SSID{
+    color: #ffffff;
+    background-color: #000000;
+    width: 100px;
+    text-align: left;
+  }
+  input[type=password]{
+    color: #ffffff;
+    background-color: #000000;
+    width: 100px;
+    text-align: left;
+  }
+  
+  
+  .flex-container
+  {
+    display: flex;
+    width:800px; 
+    margin:0 auto;
+  }
+
+  .container-navigation-buttons
+  {
+    position: absolute;
+    left: 10px; /* Adjust as needed */
+    top: 48px;  /* Adjust as needed */
+    padding: 16px 32px;    
+  }
+  
+  .container-lighting-buttons
+  {
+    flex: 1;
+  }
+  .container-appliance-buttons
+  {
+    flex: 1;
+  }
+  .container-shutter
+  {
+    flex: 1;
+  }
+  .container-time_select
+  {
+    flex: 1;
+  }
+  .container-shutter_toggle
+  {
+    flex: 1;
+  }
+  .container-Connect
+  {
+    flex: 1;
+  }
+  
+  .button {
+    border-radius: 4px;
+    position: static;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px 30px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    background-color: white; 
+    color: black; 
+  }
+  
+  .wol_button {
+    border: 2px solid #b30000;
+  }
+  .wol_button:hover {
+    background-color: #b30000;
+    color: white;
+  }
+  
+  .plug_printer_button {
+    border: 2px solid #b30000;
+  }
+  .plug_printer_button:hover {
+    background-color: #b30000;
+    color: white;
+  }
+  
+  .plug_bcpu_button {
+    border: 2px solid #b30000;
+  }
+  .plug_bcpu_button:hover {
+    background-color: #b30000;
+    color: white;
+  }
+  
+  .plug_globe_button {
+    border: 2px solid #b30000;
+  }
+  .plug_globe_button:hover {
+    background-color: #b30000;
+    color: white;
+  }
+  
+  .plug_night_lamp_button {
+    border: 2px solid #b30000;
+  }
+  .plug_night_lamp_button:hover {
+    background-color: #b30000;
+    color: white;
+  }
+  
+  .plug_desk_lamp_button {
+    border: 2px solid #b30000;
+  }
+  .plug_desk_lamp_button:hover {
+    background-color: #b30000;
+    color: white;
+  }
+  
+  .shutterUP_button {
+    border: 2px solid #b30000;
+  }
+  .shutterUP_button:hover {
+    background-color: #b30000;
+    color: white;
+  }
+  
+  .shutterDOWN_button {
+    border: 2px solid #b30000;
+  }
+  .shutterDOWN_button:hover {
+    background-color: #b30000;
+    color: white;
+  }
+  
+  .connect_button {
+    border: 2px solid #b30000;
+    padding: 8px 16px;
+  }
+  .connect_button:hover {
+    background-color: #b30000;
+    color: white;
+  }
+  
+  .restart_button {
+    border: 2px solid #b30000;
+    padding: 8px 16px;
+  }
+  .restart_button:hover {
+    background-color: #b30000;
+    color: white;
+  }
+
+  .shutterUP_switch {position: relative; display: inline-block; width: 120px; height: 68px} 
+  .shutterUP_switch input {display: none}
+  .shutterUP_slider {position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 6px}
+  .shutterUP_slider:before {position: absolute; content: ""; height: 52px; width: 52px; left: 8px; bottom: 8px; background-color: #fff; -webkit-transition: .4s; transition: .4s; border-radius: 3px}
+  input:checked+.shutterUP_slider {background-color: #b30000}
+  input:checked+.shutterUP_slider:before {-webkit-transform: translateX(52px); -ms-transform: translateX(52px); transform: translateX(52px)}
+  
+  .shutterDOWN_switch {position: relative; display: inline-block; width: 120px; height: 68px} 
+  .shutterDOWN_switch input {display: none}
+  .shutterDOWN_slider {position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 6px}
+  .shutterDOWN_slider:before {position: absolute; content: ""; height: 52px; width: 52px; left: 8px; bottom: 8px; background-color: #fff; -webkit-transition: .4s; transition: .4s; border-radius: 3px}
+  input:checked+.shutterDOWN_slider {background-color: #b30000}
+  input:checked+.shutterDOWN_slider:before {-webkit-transform: translateX(52px); -ms-transform: translateX(52px); transform: translateX(52px)}
+  
+  :root{
+    --slider_factor: 1.6;
+  }
+  .activeTimeSelect_switch {position: relative; display: inline-block; width: calc(var(--slider_factor)*60px); height: calc(var(--slider_factor)*34px)} 
+  .activeTimeSelect_switch input {display: none}
+  .activeTimeSelect_slider {position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 3px}
+  .activeTimeSelect_slider:before {position: absolute; content: ""; height: calc(var(--slider_factor)*26px); width: calc(var(--slider_factor)*26px); left: calc(var(--slider_factor)*4px); bottom: calc(var(--slider_factor)*4px); background-color: #fff; -webkit-transition: .2s; transition: .2s; border-radius: 1.5px}
+  input:checked+.activeTimeSelect_slider {background-color: #b30000}
+  input:checked+.activeTimeSelect_slider:before {-webkit-transform: translateX(calc(var(--slider_factor)*26px)); -ms-transform: translateX(calc(var(--slider_factor)*26px)); transform: translateX(calc(var(--slider_factor)*26px))}
+  
+  
+  .alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 15px;
+  }
+  .alert.warning {background-color: #ff9800;}
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 40px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.1s;
+  }
+  
+  .closebtn:hover {
+    color: black;
+  }
+  
+  /*basic reset */
+  *{
+      margin: 0;
+      padding: 0;
+  }
+  .matrix {
+    padding: 0px;
+    height: inherit;
+    width: inherit;
+    position: absolute;
+    z-index: -100;
+  }
+  canvas {display:block;}
+  
+  #time {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color : #0F0;
+    z-index : 1;
+    box-sizing: border-box;
+    vertical-align: middle;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #9d0000;
+  }
+  tr:hover {
+    background-color: #9d0000;
+    cursor: pointer;
+  }
+  tr.selected {
+    background-color: #9d0000;
+  }

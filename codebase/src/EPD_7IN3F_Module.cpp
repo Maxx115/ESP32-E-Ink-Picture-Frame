@@ -129,7 +129,7 @@ bool epd_init(int rst_pin_param, int dc_pin_param, int busy_pin_param)
     busy_pin = busy_pin_param;
 
     Serial.println("<Initializing SPI>");
-    if(SPI_Init())
+    if(SPI_Init_CS(SPI, CS_DEFAULT))
     {
         Serial.println("<Initializing EDP>");
 

@@ -37,16 +37,13 @@ SOFTWARE.
 /* REQ 3.1 */
 /* parameters: pins for SPI COM, fCLK, endieness, mode -> parameters for the SPI configuration
  * returns: spi_t SPI.bus() -> the SPI object created with the parameters */
-spi_t * SPI_Init(int mosi, int miso, int cs, int sck, int fclk, int endieness, int mode)
+spi_t * SPI_Init(SPIClass &spi, int mosi, int miso, int sck, int fclk, int endieness, int mode, int cs)
 {
-    if(SPI.bus())
+    if(spi.bus())
     {
-        Serial.println("SPI already initialized -> Reinitializing with current arguments...");
-        SPI.endTransaction();
-        SPI.end();
+        Serial.println("SPI already initialized!");
+        return spi.bus();
     }
-
-
 
     digitalWrite(cs, HIGH);
     digitalWrite(mosi, LOW);
@@ -57,8 +54,13 @@ spi_t * SPI_Init(int mosi, int miso, int cs, int sck, int fclk, int endieness, i
     pinMode(mosi, OUTPUT);
     pinMode(miso, OUTPUT);
     
-    SPI.begin(sck, miso, mosi, cs);
-    SPI.beginTransaction(SPISettings(fclk, endieness, mode));
+    spi.begin(sck, miso, mosi, cs);
+    //SPI.beginTransaction(SPISettings(fclk, endieness, mode));
 
-    return SPI.bus();
+    return spi.bus();
+}
+
+spi_t * SPI_Init_CS(SPIClass &spi, int cs)
+{
+    return SPI_Init(spi, MOSI_DEFAULT, MISO_DEFAULT, SCK_DEFAULT, FCLK_DEFAULT, ENDIANESS_DEFAULT,  MODE_DEFAULT, cs);
 }

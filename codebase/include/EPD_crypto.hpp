@@ -28,29 +28,24 @@ SOFTWARE.
  * madman1397 (https://github.com/madman1397)
  *
  * Main person in charge for this module: Maxx115 (https://github.com/Maxx115)
- * Creation date: [2024-01-20]
- * Requirements document: SPI-Requirements.txt
+ * Creation date: [2024-01-26]
+ * Requirements document: EPD_7IN3F-Requirements.txt
  */
 
-#ifndef SPIINIT
-#define SPIINIT
+#ifndef EPD_CRYPTO
+#define EPD_CRYPTO
 
-#include <SPI.h>
-#include "self_arduino.hpp"
+#include <Arduino.h>
 
-#define MOSI_DEFAULT 13
-#define MISO_DEFAULT 14
-#define CS_DEFAULT 26
-#define SCK_DEFAULT 27
-#define FCLK_DEFAULT 2000000
-#define ENDIANESS_DEFAULT MSBFIRST
-#define MODE_DEFAULT SPI_MODE0
+//extern char private_key[2048];
+extern char public_key[1024];
 
-/* REQ 3.1 */
-/* parameters: pins for SPI COM, fCLK, endieness, mode -> parameters for the SPI configuration
- * returns: spi_t SPI.bus() -> the SPI object created with the parameters */
-spi_t * SPI_Init(SPIClass &spi = SPI, int mosi = MOSI_DEFAULT, int miso = MISO_DEFAULT, int sck = SCK_DEFAULT, int fclk = FCLK_DEFAULT, int endieness = ENDIANESS_DEFAULT, int mode = MODE_DEFAULT, int cs = CS_DEFAULT);
-spi_t * SPI_Init_CS(SPIClass &spi, int cs);
+void crypto_createPair(void);
+//void cryptoDecrypt(const char* encrypted, size_t encrypted_length);
+String cryptoDecrypt_Server(const char* encrypted_base64);
+//void cryptoDecrypt_OAEP(const unsigned char* encrypted_message);
+
+//void cryptoTest(char* PUBLIC_KEY, char* PRIVATE_KEY);
 
 
-#endif //SPIINIT
+#endif /* EPD_CRYPTO */

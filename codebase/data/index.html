@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ESP32 Home Controller</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<!---------------------- matrix-background ---------------------->
+<div class="matrix">
+  <canvas id="c"></canvas>
+    <script>
+    // geting canvas by id c
+    var c = document.getElementById("c");
+    var ctx = c.getContext("2d");
+    //making the canvas full screen
+    c.height = window.innerHeight - 1;
+    c.width = window.innerWidth;
+    //chinese characters - taken from the unicode charset
+    var matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
+    //converting the string into an array of single characters
+    matrix = matrix.split("");
+    var font_size = 8;
+    var columns = c.width / font_size; //number of columns for the rain
+    //an array of drops - one per column
+    var drops = [];
+    //x below is the x coordinate
+    //1 = y co-ordinate of the drop(same for every drop initially)
+    for(var x = 0; x < columns; x++)
+        drops[x] = 1;
+    //drawing the characters
+    function draw()
+    {
+        //Black BG for the canvas
+        //translucent BG to show trail
+        ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
+        ctx.fillRect(0, 0, c.width, c.height);
+        ctx.fillStyle = "#FF00FF"; // char text
+        ctx.font = font_size + "px arial";
+        //looping over drops
+        for( var i = 0; i < drops.length; i++ )
+        {
+            //a random chinese character to print
+            var text = matrix[ Math.floor( Math.random() * matrix.length ) ];
+            //x = i*font_size, y = value of drops[i]*font_size
+            ctx.fillText(text, i * font_size, drops[i] * font_size);
+  
+            //sending the drop back to the top randomly after it has crossed the screen
+            //adding a randomness to the reset to make the drops scattered on the Y axis
+            if( drops[i] * font_size > c.height && Math.random() > 0.989 )
+                drops[i] = 0;
+  
+            //incrementing Y coordinate
+            drops[i]++;
+        }
+    }
+    setInterval( draw, 35 );
+    </script>
+  </div> <!---------------------- end matrix-background ---------------------->
+
+<body>
+  <h1>ESP32 Home Controller</h1>
+</body>
+
+<img src="/testImage.JPG" alt="Image" style="max-width:100%;">
+
+<div class="container-navigation-buttons"><!---------------------- container-navigation-buttons ---------------------->
+<a class="button plug_desk_lamp_button" href="/setup"  id="setup_button"> Setup </a>
+<br>
+<a class="button plug_desk_lamp_button" href="/update"  id="setup_button"> Update </a>
+</div><!---------------------- end container-navigation-buttons ---------------------->
+
+<div class="flex-container"><!---------------------- flex-container ---------------------->
+
+  <div class="container-lighting-buttons"><!---------------------- container-lighting-buttons ---------------------->
+  <button class="button plug_desk_lamp_button" onclick="sendRequest(this, '/plug?item=desk_lamp')" id="desk_lamp_button"> Toggle Desk Lamp </button>
+  <br>
+  <button class="button plug_globe_button" onclick="sendRequest(this, '/plug?item=globe')" id="plug_globe_button"> Toggle Globe </button>
+  <br>
+  <button class="button plug_night_lamp_button" onclick="sendRequest(this, '/plug?item=night_lamp')" id="plug_night_lamp_button"> Toggle Night Lamp </button>
+  </div><!---------------------- end container-lighting-buttons ---------------------->
+
+  <div class="container-appliance-buttons"><!---------------------- container-appliance-Buttons ---------------------->
+  <button class="button plug_bcpu_button" onclick="sendRequest(this, '/plug?item=bcpu')" id="plug_bcpu_button"> Toggle BCPU </button>
+  <br>
+  <button class="button plug_printer_button" onclick="sendRequest(this, '/plug?item=printer')" id="plug_printer_button"> Toggle Printer </button>
+  </div><!---------------------- end container-appliance-buttons ---------------------->
+
+  <div class="container-shutter"><!---------------------- container-shutter ---------------------->
+  <button class="button wol_button" onclick="sendRequest(this, '/sendWOL')" id="wol_button"> Send WOL </button>
+  <br>
+  <button class="button shutterUP_button" value="ON" onmousedown="moveShutter(this)" id="shutterUP"> Shutter UP </button>
+  <br>
+  <button class="button shutterDOWN_button" value="ON" onmousedown="moveShutter(this)" id="shutterDOWN"> Shutter DOWN </button>
+  <script>
+    function moveShutter(element)
+    {
+      sendRequest(this, "/shutter?dir=" + element.id + "&status=" + element.value)
+
+      if(element.value == "ON")
+      {
+        element.value = "OFF";
+      }
+      else
+      {
+        element.value = "ON";
+      }
+    }
+  </script>
+
+  </div><!---------------------- end container-shutter ---------------------->
+
+  <!--
+  <div class="container-time_select"><!---------------------- container-time_select ---------------------->
+  <!--
+  <label class="activeTimeSelect_switch">
+    <input type="checkbox" value="ON" id="activeTimeSelect"><span class="activeTimeSelect_slider"></span>
+  </label>
+  <br>
+  Up time: <input type="time" id="appt" name="appt">
+  <br>
+  Down time: <input type="time" id="appt" name="appt">
+  <div>
+    <input type="submit" value="Submit time">
+  </div>
+</div><!---------------------- end container-time_select ---------------------->
+ 
+</div><!---------------------- end flex-container ---------------------->
+
+<input type="text" id="messageField" name="messageField" value="" readonly>
+<script>
+  function messageUser(msg_attr)
+  {
+    let msg = String(msg_attr);
+
+    var msgField = document.getElementById('messageField');
+    msgField.value = (msg);
+    
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext('2d');
+    let text = ctx.measureText(msg);
+
+    msgField.style.width = (msg.length) + "ch";
+  }
+</script>
+
+<script> 
+  var retry_count = 0; 
+  function sendRequest(element, request)
+  {
+    messageUser("Requesting: " + request);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", request, true);
+    
+    xhr.timeout = 2000;
+    xhr.ontimeout = (e) =>
+    {
+      messageUser("Timeout: " + request);
+    }
+    xhr.onerror = () =>
+    {
+      messageUser("Error: " + request);
+      retry_count = retry_count + 1;
+      if(retry_count <= 5)
+      {
+        messageUser("Retry: " + request);
+        setTimeout(() => { sendRequest(element, request); }, 1000)
+      }
+      else
+      {
+        retry_count = 0;
+      }
+    }
+    xhr.onprogress = () =>
+    {
+      messageUser("Sending: " + request);
+    }
+    xhr.onload = () =>
+    {
+      messageUser("Completed: "+ request);
+    }
+    
+    xhr.send();
+  }
+</script>
+
+<span id = "time"><strong>%TIME% %VERSION% page version: 0.5</strong></span>
+
+</html>

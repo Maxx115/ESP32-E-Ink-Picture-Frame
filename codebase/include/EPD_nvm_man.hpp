@@ -28,29 +28,32 @@ SOFTWARE.
  * madman1397 (https://github.com/madman1397)
  *
  * Main person in charge for this module: Maxx115 (https://github.com/Maxx115)
- * Creation date: [2024-01-20]
- * Requirements document: SPI-Requirements.txt
+ * Creation date: [2024-01-26]
+ * Requirements document: EPD_7IN3F-Requirements.txt
  */
 
-#ifndef SPIINIT
-#define SPIINIT
+#ifndef EPD_NVM_MAN
+#define EPD_NVM_MAN
 
-#include <SPI.h>
 #include "self_arduino.hpp"
+#include <nvs_flash.h>
+#include <nvs.h>
 
-#define MOSI_DEFAULT 13
-#define MISO_DEFAULT 14
-#define CS_DEFAULT 26
-#define SCK_DEFAULT 27
-#define FCLK_DEFAULT 2000000
-#define ENDIANESS_DEFAULT MSBFIRST
-#define MODE_DEFAULT SPI_MODE0
+#define WIFI_NVM "SSID-Password"
 
-/* REQ 3.1 */
-/* parameters: pins for SPI COM, fCLK, endieness, mode -> parameters for the SPI configuration
- * returns: spi_t SPI.bus() -> the SPI object created with the parameters */
-spi_t * SPI_Init(SPIClass &spi = SPI, int mosi = MOSI_DEFAULT, int miso = MISO_DEFAULT, int sck = SCK_DEFAULT, int fclk = FCLK_DEFAULT, int endieness = ENDIANESS_DEFAULT, int mode = MODE_DEFAULT, int cs = CS_DEFAULT);
-spi_t * SPI_Init_CS(SPIClass &spi, int cs);
+#define AP_SSID_NVM "AP_SSID"
+#define AP_PASSWORD_NVM "AP_Password"
 
+#define SSID_NVM "SSID"
+#define PASSWORD_NVM "Password"
 
-#endif //SPIINIT
+void initNVM(void);
+
+void nvm_write_string(String storageSpace, String storageKey, String toStoreStr);
+String nvm_read_string(String storageSpace, String storageKey);
+
+bool nvm_erase_namespace(String storageSpace);
+void listKeysInNamespace(const char* namespace_name);
+bool nvm_contains(String storageSpace, String storageKey);
+
+#endif /* EPD_NVM_MAN */

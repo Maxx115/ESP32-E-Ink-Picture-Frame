@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ESP32 E-Ink Picture Frame</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<!---------------------- matrix-background ---------------------->
+<div class="matrix">
+  <canvas id="c"></canvas>#
+    <script>
+    // geting canvas by id c
+    var c = document.getElementById("c");
+    var ctx = c.getContext("2d");
+    //making the canvas full screen
+    c.height = window.innerHeight - 1;
+    c.width = window.innerWidth;
+    //chinese characters - taken from the unicode charset
+    var matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
+    //converting the string into an array of single characters
+    matrix = matrix.split("");
+    var font_size = 8;
+    var columns = c.width / font_size; //number of columns for the rain
+    //an array of drops - one per column
+    var drops = [];
+    //x below is the x coordinate
+    //1 = y co-ordinate of the drop(same for every drop initially)
+    for(var x = 0; x < columns; x++)
+        drops[x] = 1;
+    //drawing the characters
+    function draw()
+    {
+        //Black BG for the canvas
+        //translucent BG to show trail
+        ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
+        ctx.fillRect(0, 0, c.width, c.height);
+        ctx.fillStyle = "#FF00FF"; // char color
+        ctx.font = font_size + "px arial";
+        //looping over drops
+        for( var i = 0; i < drops.length; i++ )
+        {
+            //a random chinese character to print
+            var text = matrix[ Math.floor( Math.random() * matrix.length ) ];
+            //x = i*font_size, y = value of drops[i]*font_size
+            ctx.fillText(text, i * font_size, drops[i] * font_size);
+  
+            //sending the drop back to the top randomly after it has crossed the screen
+            //adding a randomness to the reset to make the drops scattered on the Y axis
+            if( drops[i] * font_size > c.height && Math.random() > 0.989 )
+                drops[i] = 0;
+  
+            //incrementing Y coordinate
+            drops[i]++;
+        }
+    }
+    setInterval( draw, 35 );
+    </script>
+  </div> <!---------------------- end matrix-background ---------------------->
+
+<body>
+  <h1>ESP32 E-Ink Picture Frame</h1>
+  <h2>Wifi Setup Page</h2>
+</body>
+
+<div class="flex-container"><!---------------------- flex-container ---------------------->
+
+    <div class="container-Connect"><!---------------------- container-Password ---------------------->
+      <br>
+      <button class="button restart_button" onclick="sendRestartRequest(this)" id="restart_button">Restart ESP32</button>
+      <script>
+        function sendRestartRequest(element)
+        {
+          sendRequest(this, "/restart");
+        }
+      </script>
+      <br>
+      <table id="myTable">
+        %SSID_LIST%
+    </table>
+    <br>
+    <form id="myForm">
+      <label for="selectedSSID">SSID:</label>
+      <input type="text" id="selectedSSID" name="selectedSSID">
+  </form>
+  <script>
+      document.addEventListener('DOMContentLoaded', (event) => 
+      {
+          const table = document.getElementById('myTable');
+          const input = document.getElementById('selectedSSID');
+
+          table.addEventListener('click', (event) => 
+          {
+              const rows = table.querySelectorAll('tr');
+              rows.forEach(row => row.classList.remove('selected'));
+
+              const clickedRow = event.target.parentNode;
+              clickedRow.classList.add('selected');
+
+              const ssid = clickedRow.cells[1].innerText; // Get the SSID from the first cell 
+              input.value = ssid;
+          });
+      });
+  </script>
+      <br>
+      <label for="Password">Password:</label>
+      <input type="password" id="Password" name="Password" requred size="10"/>  
+      <br>
+      <button class="button connect_button" onclick="sendWifiRequest(this)" id="connect_button">Connect</button>
+      <div style="display: none;" id="ciphertext"></div>
+      <script src="forge.min.js"></script>
+      <script>
+        function sendWifiRequest(element)
+        {
+          const ssidBox = document.getElementById('selectedSSID');
+          const ssid = ssidBox.value;
+          encryptMessage(document.getElementById('Password').value);
+          const pwBox = document.getElementById("ciphertext");
+          const pw = encodeURIComponent(pwBox.textContent);
+
+          sendRequest(this, "/wifi?item=wifi_connect&ssid=" + ssid + "&password=" + pw);
+        }
+
+        function encryptMessage() {
+            // Example public key in PEM format
+            const publicKeyPem = %PUBLIC_KEY%;
+
+            const plaintext = document.getElementById("Password").value;
+
+            // Import the public key
+            const publicKey = forge.pki.publicKeyFromPem(publicKeyPem);
+
+            // Encrypt the message
+            const encrypted = publicKey.encrypt(plaintext, 'RSA-OAEP', {
+                md: forge.md.sha256.create()
+            });
+
+            // Convert ciphertext to base64 and display
+            const base64Ciphertext = forge.util.encode64(encrypted);
+            console.log(base64Ciphertext);
+            document.getElementById("ciphertext").textContent = base64Ciphertext;
+        }
+    </script>
+    </div><!---------------------- end container-Password ---------------------->
+
+</div><!---------------------- end flex-container ---------------------->
+
+<input type="text" id="messageField" name="messageField" value="" readonly>
+<script>
+  function messageUser(msg_attr)
+  {
+    let msg = String(msg_attr);
+
+    var msgField = document.getElementById('messageField');
+    msgField.value = (msg);
+    
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext('2d');
+    let text = ctx.measureText(msg);
+
+    msgField.style.width = (msg.length) + "ch";
+  }
+</script>
+
+<script> 
+  var retry_count = 0; 
+  function sendRequest(element, request)
+  {
+    messageUser("Requesting: " + request);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", request, true);
+    
+    xhr.timeout = 2000;
+    xhr.ontimeout = (e) =>
+    {
+      messageUser("Timeout: " + request);
+    }
+    xhr.onerror = () =>
+    {
+      messageUser("Error: " + request);
+      retry_count = retry_count + 1;
+      if(retry_count <= 5)
+      {
+        messageUser("Retry: " + request);
+        setTimeout(() => { sendRequest(element, request); }, 1000)
+      }
+      else
+      {
+        retry_count = 0;
+      }
+    }
+    xhr.onprogress = () =>
+    {
+      messageUser("Sending: " + request);
+    }
+    xhr.onload = () =>
+    {
+      messageUser("Completed: "+ request);
+    }
+    
+    xhr.send();
+  }
+</script>
+
+<span id = "time"><strong>%VERSION% page version: 0.5</strong></span>
+
+</html>
